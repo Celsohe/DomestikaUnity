@@ -9,6 +9,8 @@ public class Movement : MonoBehaviour
 {
     public float Intensity = 2f;
     public RaycastHit2D hit;
+    public GameObject menu;
+    
     private Animator anim;
     private float _lookingAt;
     private Collider2D _collider2D;
@@ -19,7 +21,12 @@ public class Movement : MonoBehaviour
     private float jump;
     private bool _isGrounded;
     private Vector2 _ray;
-    private Paladin hero = new Paladin("Craudio","trammboto");
+    private bool _isMenu;
+    private bool _isMenuActive;
+    private bool _isPaused;
+    private Transform activation;
+    
+
     
     void Start()
     {
@@ -27,14 +34,15 @@ public class Movement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         _sr = GetComponent<SpriteRenderer>();
         _collider2D = GetComponent<Collider2D>();
-        hero.Name = "Tiberio";
-        hero.weapon = 20000;
+        menu.SetActive(false);
     }
 
     private void Update()
     {    
         _xAxis = Input.GetAxis("Horizontal");
         jump = Input.GetAxis("Vertical");
+        _isMenu = Input.GetKeyDown("space");
+        
   
         if (_lookingAt < 0)
         {
@@ -46,6 +54,11 @@ public class Movement : MonoBehaviour
         }
         Debug.DrawRay(transform.position, Vector3.down * .125f, Color.red);
         checkcollision();
+
+        if (_isMenu)
+        {
+            PauseGame();
+        }
     }
 
     private void FixedUpdate()
@@ -65,8 +78,7 @@ public class Movement : MonoBehaviour
         
         if (jump>0 && _isGrounded)
         {
-            rb.AddForce(new Vector2(0,50f)*Time.fixedDeltaTime,ForceMode2D.Impulse);
-            Debug.Log("jumped");
+            rb.AddForce(new Vector2(0,90f)*Time.fixedDeltaTime,ForceMode2D.Impulse);
             anim.SetBool("isJumping",true);
         }
         else
@@ -106,8 +118,21 @@ public class Movement : MonoBehaviour
     {
         anim.SetInteger("static" , 1);  
     }
-
-
     
+    public void PauseGame()
+    {
+        if (_isPaused == false)
+        {
+            Time.timeScale = 0;
+            _isPaused = true;
+            menu.SetActive(true);
+        }
+        else
+        {
+            Time.timeScale = 1;
+            _isPaused = false;
+            menu.SetActive(false);
+        }
 
+    }
 }

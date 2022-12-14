@@ -17,7 +17,6 @@ namespace Scenes
             this.Name = name;
             this.experience = 0;
         }
-        
     }
     
     public struct Weapon
