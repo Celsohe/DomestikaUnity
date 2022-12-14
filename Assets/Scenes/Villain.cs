@@ -1,34 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Villain : MonoBehaviour
 {
-    private Hp heroHp;
-    //  private Rigidbody2D _rb;
-
-
-    void Start()
+    private void FixedUpdate()
     {
-        heroHp.hp = 1;
-    }
-
-
-    void Update()
-    {
-        void OnCollisionEnter(Collision other)
-        {
-            if (other.gameObject.CompareTag("Player"))
-            {
-                heroHp.hp -= 1;
-            }
-        }
-        
-
-        if (heroHp.hp <= 0)
-        {
-            Destroy(this);
-        }
+       // Debug.Log(Hp.hp);
     }
 }
 
